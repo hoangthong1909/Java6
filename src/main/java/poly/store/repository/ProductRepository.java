@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p from Product p where p.category.id =?1")
-    List<Product> findByCategoryId(String cid);
+    List<Product> findByCategoryId(Integer cid);
 }

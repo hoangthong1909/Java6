@@ -17,42 +17,83 @@
                 <h1>User edition</h1>
             </div>
             <div class="card-body">
+                <form name="form_user">
                 <div class="row">
+                    <div class="col-sm-4 text-center">
+                        <label>
+                            <img ng-src="{{'/assets/images/'+ form.photo}}"
+                                 style="max-width: 100%; height:200px;" alt="">
+                        </label>
+                    </div>
                     <div class="col-sm-8">
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <div>UserName</div>
-                                <input ng-model="form.username" type="text" class="form-control">
+                                <input ng-model="form.username" ng-minlength="5" ng-maxlength="25" name="username" type="text" class="form-control" required>
+                            <div ng-hide="form_user.username.$untouched || form_user.username.$valid" class="text-danger">
+                                <small ng-show="form_user.username.$error.required">
+                                    Tên Đăng Nhập không được để trống
+                                </small>
+                                <small
+                                        ng-show="form_user.username.$error.minlength || form_user.username.$error.maxlength ">
+                                    Tên Đăng Nhập phải lớn hơn 5 kí tự và nhỏ hơn 25 kí tự
+                                </small>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <div>FullName</div>
-                                <input ng-model="form.fullname" type="text" class="form-control">
+                            </div>
+                            <div class="form-group col-sm-6" ng-hide="index != -1">
+                                <div>Password</div>
+                                <input ng-model="form.password" ng-minlength="5" ng-maxlength="50" type="password" name="password" class="form-control" required>
+                            <div ng-hide="form_user.password.$untouched || form_user.password.$valid" class="text-danger">
+                                <small ng-show="form_user.password.$error.required">
+                                    Mật Khẩu không được để trống
+                                </small>
+                                <small
+                                        ng-show="form_user.password.$error.minlength || form_user.password.$error.maxlength ">
+                                    Mật Khẩu phải lớn hơn 5 kí tự và nhỏ hơn 50 kí tự
+                                </small>
+                            </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <div>Date</div>
-                                <input ng-model="form.createDate" type="date" class="form-control">
+                                <div>Photo</div>
+                                <input onchange="angular.element(this).scope().imageChanged(this.files)" type="file" id="photo" class="form-control">
                             </div>
                             <div class="form-group col-sm-6">
-                                <div>Available?</div>
-                                <div class="form-check form-check-inline">
-                                    <input ng-model="form.available" ng-value="1" class="form-check-input" type="radio" name="available" >
-                                    <label class="form-check-label">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input ng-model="form.available" ng-value="0" class="form-check-input" type="radio" name="available" >
-                                    <label class="form-check-label">No</label>
-                                </div>
+                                <div>FullName</div>
+                                <input ng-model="form.fullname" name="fullname" ng-minlength="5" ng-maxlength="25" type="text" class="form-control" required>
+                            <div ng-hide="form_user.fullname.$untouched || form_user.fullname.$valid" class="text-danger">
+                                <small ng-show="form_user.fullname.$error.required">
+                                    Họ và tên không được để trống
+                                </small>
+                                <small
+                                        ng-show="form_user.fullname.$error.minlength || form_user.fullname.$error.maxlength ">
+                                    Họ và tên phải lớn hơn 5 kí tự và nhỏ hơn 25 kí tự
+                                </small>
                             </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group col-sm-6">
+                            <div>Email</div>
+                            <input ng-model="form.email" name="email" type="text" class="form-control" required>
+                            <div ng-hide="form_user.email.$untouched || form_user.email.$valid" class="text-danger">
+                                <small ng-show="form_user.email.$error.required">
+                                    Email không được để trống
+                                </small>
+                                <small ng-show="form_user.email.$error.email">Sai định dạng Email
+                                </small>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
             <div class="card-footer text-center">
-                <button ng-click="create()" class="btn btn-primary">Create</button>
-                <button ng-click="update()" class="btn btn-success">Update</button>
-                <button ng-click="delete(form)" class="btn btn-danger">Delete</button>
+                <button ng-click="create()" ng-hide="index != -1" class="btn btn-primary">Create</button>
+                <button ng-click="update()" ng-hide="index == -1" class="btn btn-success">Update</button>
+                <button ng-click="delete(form)" ng-hide="index == -1" class="btn btn-danger">Delete</button>
                 <button ng-click="reset()" class="btn btn-outline-danger">Refresh</button>
             </div>
         </div>
@@ -60,35 +101,29 @@
     <div class="tab-pane container fade" id="list">
         <div class="card">
             <div class="card-header">
-                Product List
+                User List
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Date</th>
+                        <th>UserName</th>
+                        <th>FullName</th>
+                        <th>Email</th>
                         <th>Image</th>
-                        <th>Category</th>
-                        <th>Available?</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="item in items">
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.price | number: 2}} $</td>
-                        <td>{{item.createDate | date: 'dd-MM-yyyy'}}</td>
-                        <td>{{item.image}}</td>
-                        <td>{{item.category.name}}</td>
-                        <td>{{item.available?'Yes':'No'}}</td>
+                        <td>{{item.username}}</td>
+                        <td>{{item.fullname}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.photo}}</td>
                         <td>
                             <div class="btn-group btn-group-xs">
                                 <button ng-click="delete(item)" class="btn btn-warning">Delete</button>
-                                <button class="btn btn-success" ng-click="edit(item)">Detail</button>
+                                <button class="btn btn-success" ng-click="edit(item)">Edit</button>
                             </div>
                         </td>
                     </tr>

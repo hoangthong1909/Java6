@@ -14,8 +14,8 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@Entity 
-@Table(name = "Orderdetails")
+@Entity
+@Table(name = "orderdetails")
 public class OrderDetail  implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

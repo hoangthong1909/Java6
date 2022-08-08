@@ -7,6 +7,6 @@ import poly.store.entity.Account;
 import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, String> {
-    @Query("select distinct obj.account from Authority obj where obj.role.id in ('DIRE','STAF')")
+    @Query("select distinct obj.account from Authority obj where obj.role.id in ('Admin','Staff')")
     List<Account> getAdmin();
 }

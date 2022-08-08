@@ -15,8 +15,8 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@Entity 
-@Table(name = "Accounts")
+@Entity
+@Table(name = "accounts")
 public class Account  implements Serializable{
 	@Id
 	String username;
@@ -27,7 +27,7 @@ public class Account  implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")
 	List<Order> orders;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
 	List<Authority> authorities;

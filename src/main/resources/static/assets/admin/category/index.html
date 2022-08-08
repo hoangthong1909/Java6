@@ -1,0 +1,82 @@
+<body>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#edition">EDITION</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#list">LIST</a>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" ng-controller="cate-ctrl">
+    <div class="tab-pane container active" id="edition">
+        <div class="card">
+            <div class="card-header">
+                <h1>Category edition</h1>
+            </div>
+            <div class="card-body">
+                <form name="form_category">
+                <div class="form-group col-sm-12">
+                    <div>Category Name</div>
+                    <input ng-model="form.name" name="name"  ng-minlength="5" ng-maxlength="50" type="text" class="form-control" required>
+                </div>
+                    <div ng-hide="form_category.name.$untouched || form_category.name.$valid" class="text-danger">
+                        <small ng-show="form_category.name.$error.required">
+                            Tên danh mục không được để trống
+                        </small>
+                        <small
+                                ng-show="form_category.name.$error.minlength || form_category.name.$error.maxlength ">
+                            Tên danh mục phải lớn hơn 5 kí tự và nhỏ hơn 50 kí tự
+                        </small>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <button ng-hide="index != -1" ng-click="create()" class="btn btn-primary">Create</button>
+                <button ng-click="update()" ng-hide="index == -1" class="btn btn-success">Update</button>
+                <button ng-click="delete(form)" ng-hide="index == -1" class="btn btn-danger">Delete</button>
+                <button ng-click="reset()" class="btn btn-outline-danger">Refresh</button>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane container fade" id="list">
+        <div class="card">
+            <div class="card-header">
+                User List
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in items">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button ng-click="delete(item)" class="btn btn-warning">Delete</button>
+                                <button class="btn btn-success" ng-click="edit(item)">Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+                <button ng-click="pager.first()" class="btn btn-outline-dark">Start</button>
+                <button ng-click="pager.prev()" class="btn btn-outline-dark">Prev</button>
+                <button class="btn btn-outline-dark">{{pager.page +1}} of {{pager.count}}</button>
+                <button ng-click="pager.next()" class="btn btn-outline-dark">Next</button>
+                <button ng-click="pager.last()" class="btn btn-outline-dark">Last</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

@@ -77,16 +77,37 @@ app.controller("shopping-cart-ctrl", function ($scope,$http){
                 });
             },
             purchase(){
-                var order = angular.copy(this);
-                //thuc hien dat hang
-                $http.post("/rest/orders",order).then(resp=>{
-                    alert("Order Success");
-                    $scope.cart.clear();
-                    location.href="/order/detail/"+resp.data.id;
-                }).catch(error=>{
-                    alert("Order Error");
-                    console.log(error)
+                Swal.fire({
+                    title: 'Xác nhận đặt hàng?',
+                    text: "You won't be able to revert this!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, order it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var order = angular.copy(this);
+                        //thuc hien dat hang
+                        $http.post("/rest/orders",order).then(resp=>{
+                            $scope.cart.clear();
+                            Swal.fire(
+                                'Đặt hàng thành công!',
+                                'You clicked the button!',
+                                'success'
+                            )
+                            location.href="/order/detail/"+resp.data.id
+                        }).catch(error=>{
+                            Swal.fire(
+                                'Đặt hàng thất bại!',
+                                'You clicked the button!',
+                                'error'
+                            )
+                            console.log(error)
+                        })
+                    }
                 })
+
             }
         }
 

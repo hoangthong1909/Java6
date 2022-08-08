@@ -27,4 +27,19 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
+
+    @Override
+    public Account create(Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account update(Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public void delete(String username) {
+        accountRepository.deleteById(username);
+    }
 }

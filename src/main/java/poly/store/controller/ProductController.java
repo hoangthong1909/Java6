@@ -18,7 +18,7 @@ public class ProductController {
     ProductService productService;
 
     @RequestMapping("product/list")
-    public String list(Model model, @RequestParam(value = "id", required = false) Optional<String> id) {
+    public String list(Model model, @RequestParam(value = "id", required = false) Optional<Integer> id) {
         if (id.isPresent()) {
             List<Product> list = productService.findCategoryId(id.get());
             model.addAttribute("items", list);

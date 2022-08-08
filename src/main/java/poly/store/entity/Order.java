@@ -22,8 +22,8 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@Entity 
-@Table(name = "Orders")
+@Entity
+@Table(name = "orders")
 public class Order  implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Order  implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "username")
 	Account account;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "order")
 	List<OrderDetail> orderDetails;

@@ -25,14 +25,33 @@
                         </label>
                     </div>
                     <div class="col-sm-8">
+                            <form name="form_product">
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <div>Name</div>
-                                <input ng-model="form.name" type="text" class="form-control">
+                                <input ng-model="form.name" name="name" ng-minlength="5" ng-maxlength="25" type="text" class="form-control" required>
+                                <div ng-hide="form_product.name.$untouched || form_product.name.$valid" class="text-danger">
+                                    <small ng-show="form_product.name.$error.required">
+                                        Tên sản phẩm không được để trống
+                                    </small>
+                                    <small
+                                            ng-show="form_product.name.$error.minlength || form_product.name.$error.maxlength ">
+                                        Tên sản phẩm phải lớn hơn 5 kí tự và nhỏ hơn 25 kí tự
+                                    </small>
+                                </div>
                             </div>
                             <div class="form-group col-sm-6">
                                 <div>Price</div>
-                                <input ng-model="form.price" type="text" class="form-control">
+                                <input ng-model="form.price" name="price" type="number" class="form-control" required>
+                                <div ng-hide="form_product.price.$untouched || form_product.price.$valid" class="text-danger">
+                                    <small ng-show="form_product.price.$error.required">
+                                        Giá không được để trống
+                                    </small>
+                                    <small
+                                      ng-show="form_product.price.$error.number">
+                                        Giá phải là số
+                                    </small>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -42,9 +61,12 @@
                             </div>
                             <div class="form-group col-sm-6">
                                 <div>Category</div>
-                                <select ng-model="form.category.id" class="form-control">
-                                    <option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+                                <select ng-model="form.category" name="cate" ng-options="c.name for c in cates"  class="form-control" required>
+                                    <option selected disabled value="">Chọn</option>
                                 </select>
+                                <small class="text-danger" ng-hide="form_product.cate.$untouched || form_product.cate.$valid">
+                                <small  ng-show="form_product.cate.$error.required">Vui lòng chọn danh mục</small>
+                                </small>
                             </div>
                         </div>
                         <div class="row">
@@ -64,13 +86,14 @@
                                 </div>
                             </div>
                         </div>
+                            </form>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-center">
-                <button ng-click="create()" class="btn btn-primary">Create</button>
-                <button ng-click="update()" class="btn btn-success">Update</button>
-                <button ng-click="delete(form)" class="btn btn-danger">Delete</button>
+                <button ng-click="create()" ng-hide="index != -1" class="btn btn-primary">Create</button>
+                <button ng-click="update()" ng-hide="index == -1" class="btn btn-success">Update</button>
+                <button ng-click="delete(form)" ng-hide="index == -1" class="btn btn-danger">Delete</button>
                 <button ng-click="reset()" class="btn btn-outline-danger">Refresh</button>
             </div>
         </div>
@@ -95,7 +118,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="item in items">
+                    <tr ng-repeat="item in items | startPagination: curPage * pageSize | limitTo: pageSize">
                         <td>{{item.id}}</td>
                         <td>{{item.name}}</td>
                         <td>{{item.price | number: 2}} $</td>
@@ -114,13 +137,22 @@
                 </table>
             </div>
             <div class="card-footer text-muted">
-                <button ng-click="pager.first()" class="btn btn-outline-dark">Start</button>
-                <button ng-click="pager.prev()" class="btn btn-outline-dark">Prev</button>
-                <button class="btn btn-outline-dark">{{pager.page +1}} of {{pager.count}}</button>
-                <button ng-click="pager.next()" class="btn btn-outline-dark">Next</button>
-                <button ng-click="pager.last()" class="btn btn-outline-dark">Last</button>
+                <nav aria-label="..." ng-show="datalists.length">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <button type="button"  class="page-link" ng-disabled="curPage == 0" ng-click="curPage=curPage-1">Previous</button>
+                        </li>
+                        <li class="page-item {{$index==curPage?'active':''}}"  ng-repeat="x in itemsIndex" aria-current="page">
+                            <a type="button" class="page-link">{{$index+1}}</a>
+                        </li>
+                        <li class="page-item">
+                            <button type="button" class="page-link" ng-disabled="curPage >= datalists.length/pageSize - 1" ng-click="curPage = curPage+1">Next</button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </div>
+
+</div>
     </div>
 </div>
 </body>
