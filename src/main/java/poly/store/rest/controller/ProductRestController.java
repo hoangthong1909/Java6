@@ -1,11 +1,15 @@
 package poly.store.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import poly.store.entity.Product;
 import poly.store.service.ProductService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -19,18 +23,13 @@ public class ProductRestController {
     public List<Product> getAll() {
         return productService.findAll();
     }
-    @RequestMapping("user")
-    public String getUser(Authentication auth) {
-        if (auth==null){
-            return null;
-        }else {
-            return auth.getName();
-        }
-    }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
-        return productService.create(product);
+    public ResponseEntity<?> create(@Valid  @RequestBody Product product, BindingResult result) {
+        if (result.hasErrors()){
+            return new ResponseEntity<>("khong nhap co cai lon cho save", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(productService.create(product),HttpStatus.OK);
     }
 
     @GetMapping("{id}")

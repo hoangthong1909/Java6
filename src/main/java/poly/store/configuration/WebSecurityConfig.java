@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //Disable CSRF and CORS
+        //CSRF kỹ thuật tấn công dựa vào mượn quyền trái phép
         httpSecurity.csrf().disable().cors().disable();
         //authorization to use
         httpSecurity.authorizeRequests()

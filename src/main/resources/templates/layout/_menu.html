@@ -27,7 +27,7 @@
                     </th:block>
                 </ul>
                 <ul th:if="${#request.remoteUser}" class="nav navbar-nav navbar-right">
-                    <li><a style="text-decoration: none; color: black !important;" href="#">Hi <b id="username">[[${#request.remoteUser}]]</b> </a></li>
+                    <li><a style="text-decoration: none; color: black !important;" href="#">Hi <b id="username">[[${#authentication.principal.username}]]</b> </a></li>
                 </ul>
             </div>
         </div>

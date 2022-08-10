@@ -39,6 +39,7 @@ app.controller("product-ctrl", function ($scope, $http) {
                 'You clicked the button!',
                 'success'
             )
+            $(".nav-tabs a:eq(1)").tab('show')
         }).catch(error => {
             Swal.fire(
                 'Thêm mới thất bại!',
@@ -58,6 +59,7 @@ app.controller("product-ctrl", function ($scope, $http) {
                 'You clicked the button!',
                 'success'
             )
+            $(".nav-tabs a:eq(1)").tab('show')
         }).catch(e => {
             Swal.fire(
                 'Cập nhật thất bại!',
@@ -87,6 +89,7 @@ app.controller("product-ctrl", function ($scope, $http) {
                         'You clicked the button!',
                         'success'
                     )
+                    $(".nav-tabs a:eq(1)").tab('show')
                 }).catch(e => {
                     Swal.fire(
                         'Xóa thất bại!',

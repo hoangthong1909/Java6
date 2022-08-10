@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
         String password=Long.toHexString(System.currentTimeMillis());
         UserDetails user=User.withUsername(name)
                 .password(passwordEncoder.encode(password))
-                .roles("Admin").build();
+                .roles("thong").build();
         Authentication auth=new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
     }

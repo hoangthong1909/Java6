@@ -63,6 +63,7 @@ app.controller("shopping-cart-ctrl", function ($scope,$http){
     if (user!=null){
         username= user.textContent;
     }
+    console.log(username)
         $scope.order = {
             createDate : new Date(),
             address:"",
