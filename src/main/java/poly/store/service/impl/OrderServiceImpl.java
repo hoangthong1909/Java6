@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import poly.store.repository.AccountRepository;
 import poly.store.repository.OrderDetailRepository;
@@ -44,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByCus(String name) {
-        return orderRepository.findAllByAccount_Username(name);
+    public Page<Order> findByCus(String name, Pageable pageable) {
+        return orderRepository.findAllByAccount_Username(name,pageable);
     }
 }

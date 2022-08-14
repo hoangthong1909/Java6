@@ -28,6 +28,13 @@ app.controller("product-ctrl", function ($scope, $http) {
 
     $scope.getAll();
     $scope.create = function () {
+        if ($scope.form_product.$invalid){
+        return  Swal.fire(
+            'Vui lòng nhập đầy đủ thông tin các trường!',
+            'You clicked the button!',
+            'error'
+        )
+        }
         var item = angular.copy($scope.form);
         console.log(JSON.stringify(item))
         $http.post(`/rest/products`, item).then(resp => {
@@ -50,6 +57,13 @@ app.controller("product-ctrl", function ($scope, $http) {
         });
     }
     $scope.update = function () {
+        if ($scope.form_product.$invalid){
+            return  Swal.fire(
+                'Vui lòng nhập đầy đủ thông tin các trường!',
+                'You clicked the button!',
+                'error'
+            )
+        }
         var item = angular.copy($scope.form);
         $http.put(`/rest/products/${item.id}`, item).then(resp => {
             var index = $scope.items.findIndex(p => p.id == item.id);

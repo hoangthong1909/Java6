@@ -1,12 +1,15 @@
 package poly.store.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import poly.store.entity.Product;
 import poly.store.repository.ProductRepository;
 import poly.store.service.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -19,13 +22,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(Integer id) {
-        return productRepository.findById(id).get();
+    public Page<Product> findPageAll(Pageable pageable) {
+        return productRepository.findPageAll(pageable);
     }
 
     @Override
-    public List<Product> findCategoryId(Integer id) {
-        return productRepository.findByCategoryId(id);
+    public Optional<Product> findById(Integer id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public Page<Product> findCategoryId(Integer id,Pageable pageable) {
+        return productRepository.findByCategoryId(id,pageable);
     }
 
     @Override

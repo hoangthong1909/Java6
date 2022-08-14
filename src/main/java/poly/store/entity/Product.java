@@ -24,8 +24,8 @@ public class Product {
     private Integer id;
 
     @NotNull(message = "Name is not Null")
-    @Size(min = 2, message = "{validation.name.size.too_short}")
-    @Size(max = 200, message = "{validation.name.size.too_long}")
+    @Size(min = 5, message = "Name size too short")
+    @Size(max = 50, message = "Name size too long")
     @Column(name = "Name", nullable = false, length = 50)
     private String name;
 

@@ -18,11 +18,15 @@ public class AccountRestController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping
-    public List<Account> getAll(@RequestParam("admin")Optional<Boolean> admin){
+    @GetMapping("check")
+    public List<Account> checkAdmin(@RequestParam("admin")Optional<Boolean> admin){
         if (admin.orElse(false)){
             return accountService.getAdmin();
         }
+        return accountService.findAll();
+    }
+    @GetMapping()
+    public List<Account> getAll(@RequestParam("admin")Optional<Boolean> admin){
         return accountService.findAll();
     }
     @PostMapping

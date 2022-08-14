@@ -1,6 +1,9 @@
 package poly.store.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,20 +21,24 @@ public class ProductController {
     ProductService productService;
 
     @RequestMapping("product/list")
-    public String list(Model model, @RequestParam(value = "id", required = false) Optional<Integer> id) {
+    public String list(Model model,@RequestParam(name = "page", required = false, defaultValue = "0") Optional<Integer> page, @RequestParam(value = "id", required = false) Optional<Integer> id) {
+        Pageable pageable = PageRequest.of(page.orElse(0), 6);
         if (id.isPresent()) {
-            List<Product> list = productService.findCategoryId(id.get());
+            Page<Product> list = productService.findCategoryId(id.get(),pageable);
             model.addAttribute("items", list);
+            model.addAttribute("total",list.getTotalPages()-1);
+            model.addAttribute("check",list.getContent().size());
         } else {
-            List<Product> list = productService.findAll();
+            Page<Product> list = productService.findPageAll(pageable);
             model.addAttribute("items", list);
+            model.addAttribute("total",list.getTotalPages()-1);
         }
         return "product/list";
     }
 
     @RequestMapping("product/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
-        Product item = productService.findById(id);
+        Product item = productService.findById(id).get();
         model.addAttribute("item", item);
         return "product/detail";
     }

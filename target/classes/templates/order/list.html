@@ -9,26 +9,41 @@
         <div class="card-body">
             <table class="table">
                 <tr>
-                    <th>No.</th>
-                    <th>Order NO.</th>
+                    <th>STT</th>
+                    <th>HD</th>
                     <th>Order date</th>
                     <th>Shipping address</th>
                     <th></th>
                 </tr>
 
-                <tr th:each="order,state : ${orders}">
+                <tr th:each="order,state : ${orders.content}">
                     <td>[[${state.index}]]</td>
                     <td>[[${order.id}]]</td>
                     <td>[[${order.createDate}]]</td>
                     <td>[[${order.address}]]</td>
                     <td>
-                        <a th:href="@{|/order/detail/${order.id}|}" class="btn btn-danger">Chi tiet</a>
+                        <a th:href="@{|/order/detail/${order.id}|}" class="btn btn-warning">Chi Tiết</a>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="card-footer text-muted">
-            Footer
+            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+                <ul class="pagination">
+                    <li th:class="${orders.number ==0} ? disabled" class="page-item">
+                        <a th:href="@{/order/list(page=${orders.number-1})}" class="page-link" >Previous</a></li>
+                    <th:block th:each="i: ${#numbers.sequence(0,total)}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{/order/list(page=${i})}"
+                               th:text="${i+1}"
+                               th:classappend="${i==orders.number} ? active"
+                            ></a>
+                        </li>
+                    </th:block>
+                    <li th:class="${orders.number ==total}? disabled" class="page-item">
+                        <a th:href="@{/order/list(page=${orders.number+1})}" class="page-link" >Next</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 </main>

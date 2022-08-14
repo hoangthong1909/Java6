@@ -19,7 +19,6 @@
                             <a class="nav-link" th:href="@{/auth/logout}">Sign Out</a>
                         </li>
                     </th:block>
-
                     <th:block th:unless="${#request.remoteUser}">
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" th:href="@{/auth/login/form}">Sign In</a>

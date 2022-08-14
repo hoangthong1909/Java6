@@ -1,7 +1,7 @@
 var app =angular.module("shopping-cart-app",[]);
 
 app.controller("shopping-cart-ctrl", function ($scope,$http){
-    // QL GIOR HANG
+    // QL GIO HANG
     $scope.cart= {
         items:[],
         user:"",

@@ -40,9 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().cors().disable();
         //authorization to use
         httpSecurity.authorizeRequests()
+                .antMatchers("/admin/**","/assets/admin/**").hasAnyRole("Staff","Admin")
+                .antMatchers("/rest/roles","/rest/accounts/check").hasRole("Admin")
                 .antMatchers("/order/**").authenticated()
-                .antMatchers("/rest/authorities").hasRole("Admin")
-                .antMatchers("/admin/**").hasAnyRole("Staff","Admin")
                 .anyRequest().permitAll();
         //dang nhap k dung quyen se chuyen huong toi day
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/unauthorized");
@@ -71,9 +71,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorization");
     }
-    //Cho phep truy xuat rest api ben ngoai (domain khac)
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-    }
+
+//    Cho phep truy xuat rest api ben ngoai (domain khac)
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+//    }
 }

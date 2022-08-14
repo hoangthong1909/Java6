@@ -1,4 +1,4 @@
-app.controller("authority-ctrl", function($scope, $http){
+app.controller("authority-ctrl", function($scope, $http,$location){
     $scope.roles=[];
     $scope.admins=[];
     $scope.authorities=[];
@@ -8,11 +8,11 @@ app.controller("authority-ctrl", function($scope, $http){
             $scope.roles=resp.data;
         })
 
-        $http.get("/rest/accounts?admin=true").then(resp=>{
+        $http.get("/rest/accounts/check?admin=false").then(resp=>{
             $scope.admins=resp.data;
         })
 
-        $http.get("/rest/authorities?admin=true").then(resp => {
+        $http.get("/rest/authorities?admin=false").then(resp => {
             $scope.authorities = resp.data;
         }).catch(e=>{
             $location.path("/unauthorized");
@@ -38,20 +38,36 @@ app.controller("authority-ctrl", function($scope, $http){
     $scope.grant_authority = function (authority) {
         $http.post(`/rest/authorities`,authority).then(resp=>{
             $scope.authorities.push(resp.data)
-            alert("Cap quyen su dung thanh cong");
+            Swal.fire(
+                'Cấp quyền thành công!',
+                'You clicked the button!',
+                'success'
+            )
         }).catch(e=>{
-            alert("cq loi")
+            Swal.fire(
+                'Cấp quyền thất bại!',
+                'You clicked the button!',
+                'error'
+            )
             console.log(e);
         })
     }
-    
+
     $scope.revoke_authority = function (authority) {
         $http.delete(`/rest/authorities/${authority.id}`).then(resp=>{
             var index =$scope.authorities.findIndex(a=>a.id == authority.id);
             $scope.authorities.slice(index,1);
-            alert("Thu hoi quyen thanh cong");
+            Swal.fire(
+                'Thu hồi quyền thành công!',
+                'You clicked the button!',
+                'success'
+            )
         }).catch(e=>{
-            alert("thu hoi loi")
+            Swal.fire(
+                'Thu hồi quyền thất bại!',
+                'You clicked the button!',
+                'error'
+            )
             console.log(e);
         })
     }

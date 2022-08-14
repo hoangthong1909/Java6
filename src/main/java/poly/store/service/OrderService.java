@@ -1,6 +1,8 @@
 package poly.store.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import poly.store.entity.Order;
 
 import java.util.List;
@@ -10,5 +12,5 @@ public interface OrderService {
 
     Object findById(Long id);
 
-    List<Order> findByCus(String name);
+    Page<Order> findByCus(String name, Pageable pageable);
 }

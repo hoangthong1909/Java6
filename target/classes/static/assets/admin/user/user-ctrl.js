@@ -41,9 +41,14 @@ app.controller("user-ctrl", function($scope, $http){
             this.page=this.count-1;
         }
     }
-
-
     $scope.create = function(){
+        if ($scope.form_user.$invalid){
+            return  Swal.fire(
+                'Vui lòng nhập đầy đủ thông tin các trường!',
+                'You clicked the button!',
+                'error'
+            )
+        }
         var item = angular.copy($scope.form);
         console.log(item);
         $http.post(`/rest/accounts`,item).then(resp=>{
@@ -65,6 +70,13 @@ app.controller("user-ctrl", function($scope, $http){
         });
     }
     $scope.update = function () {
+        if ($scope.form_user.$invalid){
+            return  Swal.fire(
+                'Vui lòng nhập đầy đủ thông tin các trường!',
+                'You clicked the button!',
+                'error'
+            )
+        }
         var item = angular.copy($scope.form);
         $http.put(`/rest/accounts/${item.username}`,item).then(resp=>{
             var index = $scope.items.findIndex(p=>p.username==item.username);
