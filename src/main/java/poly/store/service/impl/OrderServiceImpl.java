@@ -27,14 +27,20 @@ public class OrderServiceImpl implements OrderService {
     OrderDetailRepository orderDetailRepository;
 
     @Override
+    public List<Order> getAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
     public Order create(JsonNode orderData) {
         ObjectMapper mapper = new ObjectMapper();
-        Order order = mapper.convertValue(orderData,Order.class);
+        Order order = mapper.convertValue(orderData, Order.class);
         orderRepository.save(order);
 
-        TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>(){};
-        List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"),type)
-                .stream().peek(d->d.setOrder(order)).collect(Collectors.toList());
+        TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {
+        };
+        List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type)
+                .stream().peek(d -> d.setOrder(order)).collect(Collectors.toList());
         orderDetailRepository.saveAll(details);
 
         return order;
@@ -47,6 +53,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> findByCus(String name, Pageable pageable) {
-        return orderRepository.findAllByAccount_Username(name,pageable);
+        return orderRepository.findAllByAccount_Username(name, pageable);
+    }
+
+    @Override
+    public Order update(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public void delete(Long id) {
+        orderRepository.deleteById(id);
     }
 }

@@ -22,6 +22,10 @@ app.config(function ($routeProvider) {
             templateUrl: "/assets/admin/authority/unauthorize.html",
             control: "authority-ctrl"
         })
+        .when("/order", {
+            templateUrl: "/assets/admin/order/index.html",
+            control: "order-ctrl"
+        })
         .otherwise({
             template: "FPT Polytechnic"
         });

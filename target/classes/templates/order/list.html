@@ -11,6 +11,7 @@
                 <tr>
                     <th>STT</th>
                     <th>HD</th>
+                    <th>UserName</th>
                     <th>Order date</th>
                     <th>Shipping address</th>
                     <th></th>
@@ -19,6 +20,7 @@
                 <tr th:each="order,state : ${orders.content}">
                     <td>[[${state.index}]]</td>
                     <td>[[${order.id}]]</td>
+                    <td>[[${order.account.username}]]</td>
                     <td>[[${order.createDate}]]</td>
                     <td>[[${order.address}]]</td>
                     <td>

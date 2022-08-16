@@ -42,14 +42,14 @@
                             </div>
                             <div class="form-group col-sm-6">
                                 <div>Price</div>
-                                <input ng-model="form.price" name="price" type="number" class="form-control" required>
+                                <input ng-model="form.price" name="price" type="number" ng-pattern="/^[0-9]*$/" class="form-control" required>
                                 <div ng-hide="form_product.price.$untouched || form_product.price.$valid" class="text-danger">
                                     <small ng-show="form_product.price.$error.required">
                                         Giá không được để trống
                                     </small>
                                     <small
-                                      ng-show="form_product.price.$error.number">
-                                        Giá phải là số
+                                      ng-show="form_product.price.$error.pattern">
+                                        Giá phải lớn hơn 0
                                     </small>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                         <td>{{item.name}}</td>
                         <td>{{item.price | number: 2}} $</td>
                         <td>{{item.createDate | date: 'dd-MM-yyyy'}}</td>
-                        <td>{{item.image}}</td>
+                        <td><img src="/assets/images/{{item.image}}" width="50px" alt=""></td>
                         <td>{{item.category.name}}</td>
                         <td>{{item.available?'Yes':'No'}}</td>
                         <td>

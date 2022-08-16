@@ -1,0 +1,92 @@
+<body>
+<!-- Tab panes -->
+<div  class="tab-content" ng-controller="order-ctrl" >
+        <div class="card">
+            <div class="card-header">
+                Order List
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>UserName</th>
+                        <th>FullName</th>
+                        <th>Order Date</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in items | startPagination: curPage * pageSize | limitTo: pageSize ">
+                        <td>HD{{item.id}}</td>
+                        <td>{{item.account.username}}</td>
+                        <td>{{item.account.fullname}}</td>
+                        <td>{{item.account.email}}</td>
+                        <td>{{item.createDate}}</td>
+                        <td>{{item.address}}</td>
+                        <td ng-show="{{item.status}}==0">
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-success" ng-click="confirm(item)">Confirm</button>
+                                <button class="btn btn-danger" ng-click="cancel(item)">Cancel</button>
+                                <button ng-click="delete(item)" class="btn btn-warning">Delete</button>
+                            </div>
+                        </td>
+                        <td ng-show="{{item.status}}==1">
+                           <p class="text-success text-center">Đã xác nhận</p>
+                        </td>
+                        <td ng-show="{{item.status}}==2">
+                            <p class="text-danger text-center">Đã hủy</p>
+                        </td>
+                        <td><button class="btn btn-secondary" ng-click="view(item)">View</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+                <nav aria-label="..." ng-show="datalists.length">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <button type="button"  class="page-link" ng-disabled="curPage == 0" ng-click="curPage=curPage-1">Previous</button>
+                        </li>
+                        <li class="page-item {{$index==curPage?'active':''}}"  ng-repeat="x in itemsIndex" aria-current="page">
+                            <button type="button" class="page-link">{{$index+1}}</button>
+                        </li>
+                        <li class="page-item">
+                            <button type="button" class="page-link" ng-disabled="curPage >= datalists.length/pageSize - 1" ng-click="curPage = curPage+1">Next</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    <div class="card">
+        <div class="card-header">
+            Order Detail List
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="show in detail ">
+                    <td>HD{{show.order.id}}</td>
+                    <td><img src="/assets/images/{{show.product.image}}" width="50px" alt=""></td>
+                    <td>{{show.product.name}}</td>
+                    <td>{{show.price}}</td>
+                    <td>{{show.quantity}}</td>
+                    <td>{{show.quantity*show.price}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>

@@ -6,16 +6,20 @@ app.controller("authority-ctrl", function($scope, $http,$location){
     $scope.initialize=function () {
         $http.get("/rest/roles").then(resp=>{
             $scope.roles=resp.data;
+        }).catch(e=>{
+            $location.path("/unauthorize");
         })
 
         $http.get("/rest/accounts/check?admin=false").then(resp=>{
             $scope.admins=resp.data;
+        }).catch(e=>{
+            $location.path("/unauthorize");
         })
 
         $http.get("/rest/authorities?admin=false").then(resp => {
             $scope.authorities = resp.data;
         }).catch(e=>{
-            $location.path("/unauthorized");
+            $location.path("/unauthorize");
         })
     }
 
