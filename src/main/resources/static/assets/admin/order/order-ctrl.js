@@ -72,6 +72,7 @@ app.controller("order-ctrl", function($scope, $http,$location){
                         'Your file has been deleted!',
                         'success'
                     )
+                    $scope.getAll();
                 }).catch(e=>{
                     Swal.fire(
                         'Xác nhận thất bại!',
@@ -102,6 +103,7 @@ app.controller("order-ctrl", function($scope, $http,$location){
                         'Your file has been deleted!',
                         'success'
                     )
+                    $scope.getAll();
                 }).catch(e=>{
                     Swal.fire(
                         'Hủy đơn hàng thất bại!',

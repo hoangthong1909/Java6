@@ -29,22 +29,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-//       auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder.encode("123")).roles("Admin");
-//       auth.inMemoryAuthentication().withUser("user").password(passwordEncoder.encode("123")).roles("User");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        //Disable CSRF and CORS
-        //CSRF kỹ thuật tấn công dựa vào mượn quyền trái phép
         httpSecurity.csrf().disable().cors().disable();
         //authorization to use
         httpSecurity.authorizeRequests()
                 .antMatchers("/admin/**","/assets/admin/**").hasAnyRole("Staff","Admin")
-                .antMatchers("/rest/roles","/rest/accounts/check").hasRole("Admin")
+                .antMatchers("/rest/roles","/rest/accounts/**").hasRole("Admin")
                 .antMatchers("/order/**").authenticated()
                 .anyRequest().permitAll();
-        //dang nhap k dung quyen se chuyen huong toi day
         httpSecurity.exceptionHandling().accessDeniedPage("/auth/unauthorized");
         //login
         httpSecurity
@@ -72,9 +67,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .baseUri("/oauth2/authorization");
     }
 
-//    Cho phep truy xuat rest api ben ngoai (domain khac)
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-//    }
 }

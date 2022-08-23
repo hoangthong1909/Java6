@@ -1,4 +1,4 @@
-app.controller("user-ctrl", function($scope, $http){
+app.controller("user-ctrl", function($scope, $http,$location){
     $scope.items = [];
     $scope.form = {
         photo: 'upload.jpg',
@@ -8,6 +8,8 @@ app.controller("user-ctrl", function($scope, $http){
     $scope.getAll = function () {
         $http.get("/rest/accounts").then(resp => {
             $scope.items = resp.data;
+        }).catch(e=>{
+            $location.path("/unauthorize");
         });
     }
 

@@ -14,6 +14,7 @@
                     <th>UserName</th>
                     <th>Order date</th>
                     <th>Shipping address</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
 
@@ -23,6 +24,15 @@
                     <td>[[${order.account.username}]]</td>
                     <td>[[${order.createDate}]]</td>
                     <td>[[${order.address}]]</td>
+                    <td th:if="${order.status}==0">
+                        <p class="text-primary ">Chờ xác nhận</p>
+                    </td>
+                    <td th:if="${order.status}==1">
+                        <p class="text-success ">Đã xác nhận</p>
+                    </td>
+                    <td th:if="${order.status}==2">
+                        <p class="text-danger ">Đã Hủy</p>
+                    </td>
                     <td>
                         <a th:href="@{|/order/detail/${order.id}|}" class="btn btn-warning">Chi Tiết</a>
                     </td>

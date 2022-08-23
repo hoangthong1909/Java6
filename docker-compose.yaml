@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: "java6"
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./Java6.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+  spring-boot:
+    image: thonghoang190922/java6:v1.0.0
+#    environment:
+#      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:13306/java6?allowPublicKeyRetrieval=true&useSSL=false"
+#      SPRING_DATASOURCE_USERNAME: "root"
+#      SPRING_DATASOURCE_PASSWORD: "123"
+    ports:
+      - "9999:8080"
+    depends_on:
+      - mysql
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+#    restart: always
+volumes:
+  mysql-data:
